@@ -1,1 +1,101 @@
-<p>agregar-editar-personas works!</p>
+<h2 mat-dialog-title>Agregar persona</h2>
+
+<form [formGroup]="form" (ngSubmit)="addEditPersona()">
+  <mat-dialog-content>
+
+    <div class="row">
+      <div class="column">
+        <mat-form-field appearance="fill">
+          <mat-label>Nombre</mat-label>
+          <input formControlName="nombre" matInput placeholder="Ingrese nombre" autocomplete="off">
+        </mat-form-field>
+        <div class="error">
+          <span *ngIf="form.get('nombre')?.hasError('required') && form.get('nombre')?.touched">
+            <strong>El nombre es requerido</strong>
+          </span>
+          <span *ngIf="form.get('nombre')?.hasError('maxLength')">
+            El nombre debe tener maximo <strong>20 caracteres</strong>
+          </span>
+        </div>
+      </div>
+      <div class="column">
+        <mat-form-field appearance="fill">
+          <mat-label>Apellido</mat-label>
+          <input formControlName="apellido" matInput placeholder="Ingrese apellido" autocomplete="off">
+        </mat-form-field>
+        <div class="error">
+          <span *ngIf="form.get('apellido')?.hasError('required') && form.get('apellido')?.touched" >
+            <strong>El apellido es requerido</strong>
+          </span>
+          <span *ngIf="form.get('tipoDocumento')?.hasError('maxLength')">
+            El apellido debe tener maximo <strong>20 caracteres</strong>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column">
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input formControlName="correo" matInput placeholder="Ingrese email" autocomplete="off">
+        </mat-form-field>
+        <div class="error">
+          <span *ngIf="form.get('correo')?.hasError('required') && form.get('correo')?.touched">
+            <strong>El email es requerido</strong>
+          </span>
+          <span *ngIf="form.get('correo')?.hasError('email')">
+            El correo es <strong>invalido</strong>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column">
+        <mat-form-field appearance="fill">
+          <mat-label>Tipo documento</mat-label>
+          <mat-select formControlName="tipoDocumento">
+            <mat-option *ngFor="let item of tipoDocumento" [value]="item">
+              {{item}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div class="error">
+          <span *ngIf="form.get('tipoDocumento')?.hasError('required') && form.get('tipoDocumento')?.touched">
+            <strong>El tipo de documento es requerido</strong>
+          </span>
+        </div>
+      </div>
+      <div class="col">
+        <mat-form-field appearance="fill">
+          <mat-label>Documento</mat-label>
+          <input formControlName="documento" matInput placeholder="Ingrese Documento" autocomplete="off">
+        </mat-form-field>
+        <div class="error">
+          <span *ngIf="form.get('documento')?.hasError('required') && form.get('documento')?.touched">
+            <strong>El documento es requerido</strong>
+          </span>
+          <span *ngIf="form.get('documento')?.hasError('pattern')">
+            El documento debe tener solo <strong>numeros</strong>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="column">
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha nacimiento</mat-label>
+          <input [max]="maxDate" formControlName="fechaNacimiento" matInput [matDatepicker]="picker">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #picker></mat-datepicker>
+        </mat-form-field>
+        <div class="error">
+          <span *ngIf="form.get('fechaNacimiento')?.hasError('required') && form.get('fechaNacimiento')?.touched"><strong>La fecha de nacimiento es requerido</strong></span>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button type="button" (click)="cancelar()" mat-button>Cancelar</button>
+    <button [disabled]="form.invalid" type="submit" mat-button cdkFocusInitial>Aceptar</button>
+  </mat-dialog-actions>
+</form>
